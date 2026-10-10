@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useRef } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Plus, Eye, SlidersHorizontal, Check, RefreshCw } from 'lucide-react';
 
@@ -14,7 +14,27 @@ export default function CatalogShowcase({
   setSearchQuery,
 }) {
   const [sortOption, setSortOption] = useState('featured');
+  const [isSortOpen, setIsSortOpen] = useState(false);
   const [justAddedId, setJustAddedId] = useState(null);
+  const sortDropdownRef = useRef(null);
+
+  const sortOptions = [
+    { value: 'featured', label: 'Featured Order' },
+    { value: 'price-low', label: 'Price: Low to High' },
+    { value: 'price-high', label: 'Price: High to Low' },
+    { value: 'name', label: 'Alphabetical' },
+  ];
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (sortDropdownRef.current && !sortDropdownRef.current.contains(e.target)) {
+        setIsSortOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const sportsList = ['All', 'Cricket', 'Football', 'Hockey', 'Basketball', 'Tennis', 'Volleyball', 'Golf', 'Badminton'];
 
@@ -125,19 +145,67 @@ export default function CatalogShowcase({
             </div>
 
             {/* Sort Dropdown */}
-            <div className="flex items-center gap-2 sm:self-auto self-end">
+            <div className="relative flex items-center gap-2 sm:self-auto self-end" ref={sortDropdownRef}>
               <SlidersHorizontal className="w-4 h-4 text-[#667169]" />
               <span className="text-xs font-mono uppercase text-[#667169]">Sort:</span>
-              <select
-                value={sortOption}
-                onChange={(e) => setSortOption(e.target.value)}
-                className="bg-white/80 border border-[#d8dbd2] rounded-xl px-3 py-2 text-xs font-bold text-[#1d2924] focus:outline-none focus:ring-2 focus:ring-[#1d2924] cursor-pointer"
+              
+              <button
+                type="button"
+                onClick={() => setIsSortOpen(!isSortOpen)}
+                className="inline-flex items-center justify-between gap-3 bg-white/90 hover:bg-white border border-[#d8dbd2] hover:border-[#1d2924] rounded-full px-4 py-2 text-xs font-bold text-[#1d2924] shadow-sm transition-all duration-200 group focus:outline-none focus:ring-2 focus:ring-[#1d2924]"
+                aria-haspopup="listbox"
+                aria-expanded={isSortOpen}
               >
-                <option value="featured">Featured Order</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="name">Alphabetical</option>
-              </select>
+                <span>{sortOptions.find((o) => o.value === sortOption)?.label || 'Featured Order'}</span>
+                
+                {/* Ultra-Modern Custom Dropdown Chevron Icon */}
+                <div
+                  className={`w-5 h-5 rounded-full bg-[#1d2924]/5 group-hover:bg-[#e3ff76] flex items-center justify-center transition-all duration-300 ${
+                    isSortOpen ? 'rotate-180 bg-[#e3ff76]' : ''
+                  }`}
+                >
+                  <svg viewBox="0 0 16 16" fill="none" className="w-3.5 h-3.5 stroke-[#1d2924] stroke-[2.2] stroke-linecap-round stroke-linejoin-round">
+                    <path d="M4 6.25L8 10.25L12 6.25" />
+                  </svg>
+                </div>
+              </button>
+
+              {/* Floating Modern Glass Dropdown Menu */}
+              <AnimatePresence>
+                {isSortOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 6, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 4, scale: 0.95 }}
+                    transition={{ duration: 0.16, ease: 'easeOut' }}
+                    className="absolute right-0 top-full mt-2 w-48 bg-white/95 backdrop-blur-xl border border-[#d8dbd2] rounded-2xl shadow-2xl z-30 p-1.5 space-y-1 overflow-hidden"
+                  >
+                    {sortOptions.map((opt) => {
+                      const isSelected = opt.value === sortOption;
+                      return (
+                        <button
+                          key={opt.value}
+                          type="button"
+                          onClick={() => {
+                            setSortOption(opt.value);
+                            setIsSortOpen(false);
+                          }}
+                          className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-between ${
+                            isSelected
+                              ? 'bg-[#1d2924] text-[#f7f6f0]'
+                              : 'text-[#1d2924] hover:bg-[#e7e9de]'
+                          }`}
+                        >
+                          <span>{opt.label}</span>
+                          {isSelected && (
+                            <span className="w-2 h-2 rounded-full bg-[#e3ff76] shadow-[0_0_6px_#e3ff76]" />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
           </div>

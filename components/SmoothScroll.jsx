@@ -21,6 +21,21 @@ export default function SmoothScroll({ children }) {
 
     lenis.on('scroll', ScrollTrigger.update);
 
+    // Dynamic scrollbar visibility: show only when scrolling, hide when idle
+    let scrollTimeout;
+    const triggerScrolling = () => {
+      document.body.classList.add('is-scrolling');
+      document.documentElement.classList.add('is-scrolling');
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        document.body.classList.remove('is-scrolling');
+        document.documentElement.classList.remove('is-scrolling');
+      }, 850);
+    };
+
+    lenis.on('scroll', triggerScrolling);
+    window.addEventListener('scroll', triggerScrolling, { passive: true });
+
     gsap.ticker.add((time) => {
       lenis.raf(time * 1000);
     });
@@ -30,6 +45,8 @@ export default function SmoothScroll({ children }) {
     return () => {
       lenis.destroy();
       gsap.ticker.remove(lenis.raf);
+      window.removeEventListener('scroll', triggerScrolling);
+      clearTimeout(scrollTimeout);
     };
   }, []);
 

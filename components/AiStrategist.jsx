@@ -137,15 +137,22 @@ export default function AiStrategist({ onAddPresetToKit }) {
               <label className="text-xs font-mono font-bold uppercase text-[#7c8679] block mb-2">
                 3. Playing Surface Condition
               </label>
-              <select
-                value={surface}
-                onChange={(e) => setSurface(e.target.value)}
-                className="w-full bg-white/90 border border-[#d8dbd2] rounded-xl px-4 py-2.5 text-xs font-bold text-[#1d2924] focus:outline-none focus:ring-2 focus:ring-[#1d2924]"
-              >
-                {surfaces.map((sf) => (
-                  <option key={sf} value={sf}>{sf}</option>
-                ))}
-              </select>
+              <div className="relative">
+                <select
+                  value={surface}
+                  onChange={(e) => setSurface(e.target.value)}
+                  className="w-full appearance-none bg-white/90 border border-[#d8dbd2] hover:border-[#1d2924] rounded-xl px-4 py-2.5 pr-10 text-xs font-bold text-[#1d2924] focus:outline-none focus:ring-2 focus:ring-[#1d2924] cursor-pointer shadow-sm transition-all"
+                >
+                  {surfaces.map((sf) => (
+                    <option key={sf} value={sf}>{sf}</option>
+                  ))}
+                </select>
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-[#1d2924]/5 flex items-center justify-center pointer-events-none text-[#1d2924]">
+                  <svg viewBox="0 0 16 16" fill="none" className="w-3.5 h-3.5 stroke-current stroke-[2.2] stroke-linecap-round stroke-linejoin-round">
+                    <path d="M4 6.25L8 10.25L12 6.25" />
+                  </svg>
+                </div>
+              </div>
             </div>
 
             {/* Focus Area */}

@@ -57,20 +57,36 @@ body {
   color: var(--ink);
 }
 
-/* Custom scrollbars */
+/* Scrollbar: hidden by default, visible only while actively scrolling */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #edece4;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd0c3;
-  border-radius: 4px;
+  background: transparent;
+  border-radius: 9999px;
+  transition: background 0.3s ease;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: #a9b0a1;
+
+body.is-scrolling::-webkit-scrollbar-thumb,
+html.is-scrolling::-webkit-scrollbar-thumb {
+  background: rgba(29, 41, 36, 0.45);
+}
+body.is-scrolling::-webkit-scrollbar-thumb:hover,
+html.is-scrolling::-webkit-scrollbar-thumb:hover {
+  background: rgba(29, 41, 36, 0.85);
+}
+
+/* Firefox scrollbar auto-hide */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+html.is-scrolling {
+  scrollbar-color: rgba(29, 41, 36, 0.45) transparent;
 }
 
 /* Glassmorphism Classes */
