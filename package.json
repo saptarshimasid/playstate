@@ -1,0 +1,35 @@
+{
+  "name": "playstate",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Playstate outdoor sports storefront and AI match kit planner with Next.js, Express, Python LangChain/LangGraph, GSAP, Lenis, Framer Motion, and Tailwind CSS",
+  "scripts": {
+    "dev": "concurrently -k -n \"NEXT,EXPRESS,AI\" -c \"cyan.bold,green.bold,yellow.bold\" \"next dev -p 3000\" \"node server/server.js\" \"python3 ai_service/main.py\"",
+    "dev:next": "next dev -p 3000",
+    "dev:express": "node server/server.js",
+    "dev:ai": "python3 ai_service/main.py",
+    "build": "next build",
+    "start": "next start -p 3000",
+    "start:all": "concurrently -k -n \"NEXT,EXPRESS,AI\" -c \"cyan.bold,green.bold,yellow.bold\" \"next start -p 3000\" \"node server/server.js\" \"python3 ai_service/main.py\""
+  },
+  "dependencies": {
+    "canvas-confetti": "^1.9.4",
+    "concurrently": "^10.0.6",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.7",
+    "express": "^5.3.0",
+    "framer-motion": "^14.1.0",
+    "gsap": "^3.15.0",
+    "lenis": "^1.3.26",
+    "lucide-react": "^1.55.0",
+    "next": "^16.4.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@types/canvas-confetti": "^1.9.0",
+    "autoprefixer": "^10.6.1",
+    "postcss": "^8.5.29",
+    "tailwindcss": "^3.4.19"
+  }
+}

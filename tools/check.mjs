@@ -1,0 +1,32 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {filterProducts,normalizeKit,addToKit,changeQuantity,kitSummary,kitText,money} from '../src/core.mjs';
+const products=JSON.parse(readFileSync(new URL('../src/products.json',import.meta.url),'utf8'));
+assert.equal(products.length,16);
+assert.equal(new Set(products.map(p=>p.id)).size,16);
+assert.equal(new Set(products.map(p=>p.sport)).size,8);
+for(const p of products){assert.ok(p.options.length);assert.ok(p.price>0);assert.ok(p.image>=0&&p.image<(p.sheet==='support'?4:12));}
+assert.equal(filterProducts(products,{sport:'Cricket'}).length,5);
+assert.equal(filterProducts(products,{sport:'Hockey'}).length,2);
+assert.equal(filterProducts(products,{query:'  GOLF BALL  '})[0].id,'golf-ball');
+assert.equal(filterProducts(products,{query:'no-such-item'}).length,0);
+assert.equal(filterProducts(products,{sport:'Hockey',query:'ball'}).length,1);
+const ascending=filterProducts(products,{sort:'price-low'});
+assert.equal(ascending[0].id,'golf-ball');
+for(let i=1;i<ascending.length;i++)assert.ok(ascending[i].price>=ascending[i-1].price);
+const original=products.map(p=>p.id);filterProducts(products,{sort:'name'});assert.deepEqual(products.map(p=>p.id),original);
+assert.deepEqual(normalizeKit({broken:true},products),[]);
+assert.deepEqual(normalizeKit([{productId:'unknown',option:'Adult',qty:2},{productId:'cricket-bat',option:'Invalid',qty:1},{productId:'football',option:'Size 5',qty:-1},{productId:'football',option:'Size 5',qty:'2'}],products),[]);
+let kit=addToKit([],products,'football','Size 5');
+kit=addToKit(kit,products,'football','Size 5',2);
+assert.equal(kit.length,1);assert.equal(kit[0].qty,3);assert.equal(kitSummary(kit,products).total,3570);
+kit=addToKit(kit,products,'football','Size 4');assert.equal(kit.length,2);
+assert.equal(addToKit(kit,products,'football','Size 5',1000)[0].qty,99);
+kit=changeQuantity(kit,1,-1);assert.equal(kit.length,1);
+kit=changeQuantity(kit,0,-1);assert.equal(kit[0].qty,2);
+kit=[];
+for(const id of ['cricket-bat','cricket-ball','cricket-pads','cricket-gloves','cricket-stumps']){const p=products.find(p=>p.id===id);kit=addToKit(kit,products,id,p.options[0]);}
+assert.deepEqual(kitSummary(kit,products),{count:5,total:8950});
+const text=kitText(kit,products);assert.ok(text.includes('Guide total: '+money(8950)));assert.ok(text.includes('not an order'));assert.ok(text.includes('Boundary Cricket Bat'));
+assert.equal(money(1190),'₹1,190');
+console.log('Passed: catalog search/filter/sort, product data, saved-kit validation, option separation, quantities, totals and downloads.');

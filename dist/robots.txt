@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://playstate-outdoor-sports.biswas-jayita2011.chatgpt.site/sitemap.xml
