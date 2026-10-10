@@ -13,7 +13,9 @@ An ultra-modern outdoor sports storefront and AI match kit planner built with **
 - **Interactive 8 Disciplines Grid**: Handcrafted animated SVG sport icons (Cricket, Football, Hockey, Basketball, Tennis, Volleyball, Golf, Badminton) with live catalog filtering.
 - **Gear Catalog Showcase**: 16 product concepts rendered with contact-sheet sprite systems, 3D tilt hover physics, live search, sport filter tabs, price/name sorting, and quick-view dialogs.
 - **Cricket Pitch Spotlight**: Editorial dark-mode section featuring interactive equipment hotspot pins (Willow Bat, Red Seam Ball, Crease Batting Pads, Stumps) and match readiness checklists.
+- **Match-Day Weather & Pitch Radar**: Live surface telemetry simulating temperature, humidity, wind velocity, ball aerodynamic swing index, and ground rebound elasticity.
 - **LangChain & LangGraph AI Match Strategist**: Multi-node Python reasoning graph that evaluates sport, skill tier, and playing surface to generate tailored gameplans, drills, and instant starter-pack presets.
+- **Athletic Club Roster & Match Protocol**: 4-day weekly training schedule with live intensity meters, drills, and one-click session gear synchronization into the saved kit drawer.
 - **Ultra-Modern Animated Footer**: Interactive waveform audio/motion equalizer bars, live sports marquee ticker, dispatch newsletter form, local system clock, and smooth Lenis back-to-top button.
 - **Interactive Kit Drawer & Confetti**: Real-time quantity adjustments, price calculations, celebratory confetti bursts, and one-click `.txt` checklist download.
 

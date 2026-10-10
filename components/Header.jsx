@@ -24,7 +24,9 @@ export default function Header({ kitCount = 0, onOpenKit, onOpenSearch }) {
     { label: 'Disciplines', href: '#sports' },
     { label: 'Gear Catalog', href: '#catalog' },
     { label: 'Cricket Pitch', href: '#cricket' },
+    { label: 'Pitch Radar', href: '#pitch-radar' },
     { label: 'AI Strategist', href: '#ai-strategist' },
+    { label: 'Protocol', href: '#club-protocol' },
     { label: 'Field Notes', href: '#field-notes' },
   ];
 

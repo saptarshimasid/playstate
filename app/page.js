@@ -8,7 +8,9 @@ import Marquee from '@/components/Marquee';
 import SportsDisciplines from '@/components/SportsDisciplines';
 import CatalogShowcase from '@/components/CatalogShowcase';
 import CricketFeature from '@/components/CricketFeature';
+import WeatherPitchRadar from '@/components/WeatherPitchRadar';
 import AiStrategist from '@/components/AiStrategist';
+import AthleticClubProtocol from '@/components/AthleticClubProtocol';
 import FieldNotes from '@/components/FieldNotes';
 import Footer from '@/components/Footer';
 import KitDrawer from '@/components/KitDrawer';
@@ -184,8 +186,16 @@ export default function HomePage() {
             onAddCricketPack={() => handleLoadPreset('cricket')}
           />
 
+          {/* Match-Day Weather & Pitch Radar */}
+          <WeatherPitchRadar />
+
           {/* AI Match Strategist (LangChain & LangGraph) */}
           <AiStrategist
+            onAddPresetToKit={handleAddPresetFromAi}
+          />
+
+          {/* Athletic Club Roster & Match Protocol */}
+          <AthleticClubProtocol
             onAddPresetToKit={handleAddPresetFromAi}
           />
 
